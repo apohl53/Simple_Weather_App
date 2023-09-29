@@ -1,88 +1,70 @@
 // Get DOM elements
 const cityInput = document.querySelector('input[type="text"]');
-const searchBtn = document.querySelector(".search-btn");
+const searchBtn = document.getElementById("search-btn");
 const locationBtn = document.querySelector(".location-btn");
 const currentWeather = document.querySelector(".current-weather");
 const daysForecast = document.querySelector(".days-forecast");
+const apiKey = "3acc16ffae9e45df92a064e41646355f";
 
-// Add event listeners
-searchBtn.addEventListener("click", searchWeather);
-locationBtn.addEventListener("click", getCurrentLocation);
-
-// Function to search weather by city name
-function searchWeather() {
-  const cityName = cityInput.value;
-  fetchWeatherData(cityName);
+function displayForecast(forecastData) {
+  // Display forecast
+  console.log("forecast", forecastData);
 }
 
-// Function to get weather data from OpenWeatherMap API
-function fetchWeatherData(cityName) {
-  const apiKey = "4999fb722d8a3c7dac315d939656c458"; // Replace with your OpenWeatherMap API key
-  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={4999fb722d8a3c7dac315d939656c458}`;
+function getForecast(lat, lon) {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
-  fetch(apiUrl)
+  fetch(url)
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+      displayForecast(data);
+    });
+}
+
+function getCoordinates(city) {
+  const geocodingApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`;
+
+  fetch(geocodingApiUrl)
     .then((response) => response.json())
     .then((data) => {
-      // Update the current weather section
-      const temperature = data.main.temp;
-      const weatherIcon = data.weather[0].icon;
-      const weatherDescription = data.weather[0].description;
-
-      currentWeather.innerHTML = `
-        <div class="details">
-          <h2>${cityName} (${dayjs().format("YYYY-MM-DD")})</h2>
-          <h4>Temperature: ${temperature} K</h4>
-          <div class="icon">
-            <img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="${weatherDescription}">
-            <h4>${weatherDescription}</h4>
-          </div>
-        </div>
-      `;
+      console.log(data);
+      const { lat, lon } = data[0];
+      console.log(`Latitude: ${lat}, Longitude: ${lon}`);
+      getForecast(lat, lon);
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 }
 
-// Function to get weather data for current location
-function getCurrentLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      fetchWeatherDataByCoordinates(latitude, longitude);
-    });
-  } else {
-    alert("Geolocation is not supported by this browser.");
-  }
+function displayCurrent(currentData) {
+  weatherDisplay.insertAdjacentHTML(
+    "beforeend",
+    `
+  <div>
+    <h2>${currentData.name}</h2>
+    <p>${currentData.main.temp}&deg; F</p>
+  </div>
+`
+  );
+
+  getForecast(currentData.coord);
 }
 
-// Function to get weather data from OpenWeatherMap API using coordinates
-function fetchWeatherDataByCoordinates(latitude, longitude) {
-  const apiKey = "4999fb722d8a3c7dac315d939656c458"; // Replace with your OpenWeatherMap API key
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+function getCurrentWeather() {
+  const city = cityInput.value;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
-  fetch(apiUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      // Update the current weather section
-      const cityName = data.name;
-      const temperature = data.main.temp;
-      const weatherIcon = data.weather[0].icon;
-      const weatherDescription = data.weather[0].description;
-
-      currentWeather.innerHTML = `
-        <div class="details">
-          <h2>${cityName} (${dayjs().format("YYYY-MM-DD")})</h2>
-          <h4>Temperature: ${temperature} K</h4>
-          <div class="icon">
-            <img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="${weatherDescription}">
-            <h4>${weatherDescription}</h4>
-          </div>
-        </div>
-      `;
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  fetch(url)
+    .then((res) => res.json())
+    .then(displayCurrent);
 }
+
+searchBtn.addEventListener("click", () => {
+  console.log(cityInput.value);
+  getCoordinates(cityInput.value);
+});
