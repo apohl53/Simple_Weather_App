@@ -7,34 +7,33 @@ const daysForecast = document.querySelector(".days-forecast");
 const apiKey = "3acc16ffae9e45df92a064e41646355f";
 
 function displayForecast(forecastData) {
-  // Display forecast
   daysForecast.innerHTML = "";
-  forecastData.list.forEach((forecast) => {
-    const date = new Date(forecast.dt * 1000).toLocaleDateString();
-    const temperature = forecast.main.temp;
-    const description = forecast.weather[0].description;
+  forecastData.list.forEach((forecast, index) => {
+    if ((index + 1) % 8 === 0) {
+      const date = new Date(forecast.dt * 1000).toLocaleDateString();
+      const temperature = forecast.main.temp;
+      const description = forecast.weather[0].description;
 
-    // Create forecast card elements and append them to the daysForecast element
-    const forecastCard = document.createElement("div");
-    forecastCard.classList.add("forecast-card");
+      const forecastCard = document.createElement("div");
+      forecastCard.classList.add("forecast-card");
 
-    const dateElement = document.createElement("p");
-    dateElement.textContent = date;
+      const dateElement = document.createElement("p");
+      dateElement.textContent = date;
 
-    const temperatureElement = document.createElement("p");
-    temperatureElement.textContent = `${temperature}° F`;
+      const temperatureElement = document.createElement("p");
+      temperatureElement.textContent = `${temperature}° F`;
 
-    const descriptionElement = document.createElement("p");
-    descriptionElement.textContent = description;
+      const descriptionElement = document.createElement("p");
+      descriptionElement.textContent = description;
 
-    forecastCard.appendChild(dateElement);
-    forecastCard.appendChild(temperatureElement);
-    forecastCard.appendChild(descriptionElement);
+      forecastCard.appendChild(dateElement);
+      forecastCard.appendChild(temperatureElement);
+      forecastCard.appendChild(descriptionElement);
 
-    daysForecast.appendChild(forecastCard);
+      daysForecast.appendChild(forecastCard);
+    }
   });
 }
-
 function getForecast(lat, lon) {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
@@ -63,6 +62,7 @@ function getCoordinates(city) {
     .catch((error) => {
       console.error("Error:", error);
     });
+  addToSearchHistory(city);
 }
 
 function displayCurrent(currentData) {
@@ -81,6 +81,7 @@ function displayCurrent(currentData) {
 
 const cityNameElement = document.createElement("h2");
 
+// Function that takes cityinput and puts it into the API, fetches that data and appends to cityNameElement
 function getCurrentWeather() {
   const city = cityInput.value;
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
@@ -94,8 +95,24 @@ function getCurrentWeather() {
     });
 }
 
+// Event listener for search button to put input value into get coordinates function and run get current weather function
 searchBtn.addEventListener("click", () => {
   console.log(cityInput.value);
   getCoordinates(cityInput.value);
   getCurrentWeather();
 });
+
+function addToSearchHistory(city) {
+  // Create a list item element
+  const listItem = document.createElement("li");
+  listItem.textContent = city;
+
+  // Add an event listener to the list item to perform a new search when clicked
+  listItem.addEventListener("click", function () {
+    searchCity(city);
+  });
+
+  // Append the list item to the search history container
+  const searchHistoryContainer = document.getElementById("searchHistory");
+  searchHistoryContainer.appendChild(listItem);
+}
