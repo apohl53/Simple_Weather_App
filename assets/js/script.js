@@ -6,6 +6,7 @@ const currentWeather = document.querySelector(".current-weather");
 const daysForecast = document.querySelector(".days-forecast");
 const apiKey = "3acc16ffae9e45df92a064e41646355f";
 
+// need to add inline styles, ie: forecastCard.style.backgroundColor = "lightblue";
 function displayForecast(forecastData) {
   daysForecast.innerHTML = "";
   forecastData.list.forEach((forecast, index) => {
@@ -16,6 +17,7 @@ function displayForecast(forecastData) {
 
       const forecastCard = document.createElement("div");
       forecastCard.classList.add("forecast-card");
+      forecastCard.style.backgroundColor = "lightblue";
 
       const dateElement = document.createElement("p");
       dateElement.textContent = date;
@@ -34,6 +36,8 @@ function displayForecast(forecastData) {
     }
   });
 }
+
+//
 function getForecast(lat, lon) {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
@@ -48,6 +52,7 @@ function getForecast(lat, lon) {
     });
 }
 
+// gets city from search and inputs into map api
 function getCoordinates(city) {
   const geocodingApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`;
 
@@ -65,6 +70,7 @@ function getCoordinates(city) {
   addToSearchHistory(city);
 }
 
+// displays current city name and temperature
 function displayCurrent(currentData) {
   currentWeather.innerHTML = "";
   currentWeather.insertAdjacentHTML(

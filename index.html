@@ -7,20 +7,28 @@
     <title>Simple Weather App</title>
     <link rel="stylesheet" href="./assets/css/stylesheet.css" />
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
+
   <body>
-    <main>
-      <div class=""></div>
-      <h1>Weather</h1>
-      <div class="container">
+    <header class="header">
+      <div class="">
+        <h1 class="text-3xl font-semibold flex items-center justify-center">
+          Weather Dashboard
+        </h1>
+      </div>
+    </header>
+
+    <main class="grid-cols-2">
+      <div class="container-fluid">
         <div class="weather-input">
-          <h3>Enter a city Name</h3>
+          <h3>Enter a city name</h3>
           <input type="text" placeholder="E.g., New York, London, Tokyo" />
           <button id="search-btn">Search</button>
-          <div class="separator"></div>
-          <button class="location-btn">Use Current Location</button>
+          <div class=""></div>
         </div>
-          </div>
+
+        <div class="grid-cols-2">
           <div class="days-forecast">
             <h2>5-Day Forecast</h2>
             <ul class="weather-cards">
@@ -30,6 +38,118 @@
         </div>
       </div>
     </main>
+
+    <!-- need to add something with id of current-weather that displays on top right side of screen -->
+
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
+
+<!-- reference  -->
+
+<main class="main">
+  <div class="container-fluid">
+    <div class="row page-content">
+      <!-- column 1 -->
+      <div class="col-sm-4 bg-light p-0">
+        <!-- search form -->
+        <div class="form-container">
+          <form id="search-form">
+            <!-- search input label -->
+            <div class="row m-0">
+              <label for="search-input" class="search-label m-0 text-dark"
+                >Search for a City:</label
+              >
+            </div>
+            <!-- search label input and button-->
+            <div class="row m-0">
+              <div class="col-sm-8 p-0 my-auto">
+                <input
+                  type="text"
+                  id="search-input"
+                  name="search-input"
+                  class="search-input rounded"
+                />
+              </div>
+              <div class="col-sm-4 p-0">
+                <button
+                  type="submit"
+                  class="btn bg-primary rounded search-button"
+                >
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- search history -->
+        <div
+          id="search-history-container"
+          class="row m-0 search-history-container"
+        ></div>
+      </div>
+
+      <!-- column 2 -->
+      <div class="col-sm-8 p-0">
+        <!-- current weather conditions -->
+        <div id="current-weather-container" class="row d-block">
+          <!-- current weather title -->
+          <div class="current-title-container">
+            <h2 id="current-title" class="current-title d-inline"></h2>
+            <img id="current-weather-icon" class="d-inline" src="" alt="" />
+          </div>
+          <!-- current weather temperature -->
+          <p class="current-temperature" id="current-temperature"></p>
+          <!-- current weather humidity -->
+          <p class="current-humidity" id="current-humidity"></p>
+          <!-- current weather wind speed -->
+          <p class="current-wind-speed" id="current-wind-speed"></p>
+          <!-- current weather uv index -->
+          <p class="current-uv-index" id="current-uv-index"></p>
+          <p class="current-number rounded" id="current-number"></p>
+        </div>
+        <!-- 5 day forecast -->
+        <div class="row future-forecast-container d-block">
+          <!-- 5 day forecast title-->
+          <h2 class="future-forecast-title" id="future-forecast-title"></h2>
+          <div
+            id="forecasts-cards-container"
+            class="forecasts-cards-container d-flex justify-content-between"
+          >
+            <!-- future day forecard card -->
+            <div class="future-card bg-primary rounded">
+              <p class="future-date" id="future-date-1"></p>
+              <img id="future-icon-1" src="" alt="" />
+              <p class="future-temp" id="future-temp-1"></p>
+              <p class="future-humidity" id="future-humidity-1"></p>
+            </div>
+            <div class="future-card bg-primary rounded">
+              <p class="future-date" id="future-date-2"></p>
+              <img id="future-icon-2" src="" alt="" />
+              <p class="future-temp" id="future-temp-2"></p>
+              <p class="future-humidity" id="future-humidity-2"></p>
+            </div>
+            <div class="future-card bg-primary rounded">
+              <p class="future-date" id="future-date-3"></p>
+              <img id="future-icon-3" src="" alt="" />
+              <p class="future-temp" id="future-temp-3"></p>
+              <p class="future-humidity" id="future-humidity-3"></p>
+            </div>
+            <div class="future-card bg-primary rounded">
+              <p class="future-date" id="future-date-4"></p>
+              <img id="future-icon-4" src="" alt="" />
+              <p class="future-temp" id="future-temp-4"></p>
+              <p class="future-humidity" id="future-humidity-4"></p>
+            </div>
+            <div class="future-card bg-primary rounded">
+              <p class="future-date" id="future-date-5"></p>
+              <img id="future-icon-5" src="" alt="" />
+              <p class="future-temp" id="future-temp-5"></p>
+              <p class="future-humidity" id="future-humidity-5"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
