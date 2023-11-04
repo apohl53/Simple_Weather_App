@@ -1,4 +1,4 @@
-body {
+/* body {
   background: rgb(172, 234, 213);
 }
 
@@ -47,7 +47,12 @@ h1 {
   border-radius: 4px;
   background: #5372f0;
 }
-*/
+
+.weather-cards {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Optional: Add some spacing between the cards */
+/* } */
 
 /* .weather-input .location-btn {
   background: #6c757d;
@@ -65,7 +70,7 @@ h1 {
   padding: 20px 70px 20px 20px;
   justify-content: space-between;
 } */
-
+/* 
 * {
   margin: 0;
   padding: 0;
@@ -168,7 +173,7 @@ h1 {
 }
 
 .severe {
-  backgound-color: red;
+  background-color: red;
 }
 
 .future-forecast-container {
@@ -198,4 +203,38 @@ h1 {
 .future-humidity {
   font-size: 17px;
   font-weight: 200;
+}
+
+.forecast-card {
+  width: 150px;
+} */
+
+/* GLOBAL RESETS */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* CUSTOM CLASSES */
+
+header {
+  color: #ebebeb;
+  background-color: blue;
 }
