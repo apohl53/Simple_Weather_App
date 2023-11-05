@@ -69,8 +69,6 @@ function getCoordinates(city) {
     });
   addToSearchHistory(city);
 }
-
-// displays current city name and temperature
 function displayCurrent(currentData) {
   currentWeather.innerHTML = "";
   currentWeather.insertAdjacentHTML(
@@ -78,9 +76,13 @@ function displayCurrent(currentData) {
     `
     <div>
       <h2>${currentData.name}</h2>
-      <p>${currentData.main.temp}&deg; F</p>
+      <p>Date: ${new Date().toLocaleDateString()}</p>
+      <img src="${currentData.iconUrl}" alt="Weather Icon">
+      <p>Temperature: ${currentData.main.temp}&deg; F</p>
+      <p>Humidity: ${currentData.main.humidity}%</p>
+      <p>Wind Speed: ${currentData.wind.speed} mph</p>
     </div>
-  `
+    `
   );
   getForecast(currentData.coord.lat, currentData.coord.lon);
 }
