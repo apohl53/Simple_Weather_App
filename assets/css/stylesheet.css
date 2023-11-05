@@ -26,3 +26,7 @@ header {
   color: #ebebeb;
   background-color: blue;
 }
+
+.forecast-card {
+  margin: 0 10px;
+}

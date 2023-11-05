@@ -9,11 +9,16 @@ const apiKey = "3acc16ffae9e45df92a064e41646355f";
 // need to add inline styles, ie: forecastCard.style.backgroundColor = "lightblue";
 function displayForecast(forecastData) {
   daysForecast.innerHTML = "";
+
   forecastData.list.forEach((forecast, index) => {
     if ((index + 1) % 8 === 0) {
       const date = new Date(forecast.dt * 1000).toLocaleDateString();
       const temperature = forecast.main.temp;
       const description = forecast.weather[0].description;
+      const windSpeed = forecast.wind.speed;
+      const humidity = forecast.main.humidity;
+      const iconCode = forecast.weather[0].icon;
+      const iconUrl = `https://openweathermap.org/img/w/${iconCode}.png`;
 
       const forecastCard = document.createElement("div");
       forecastCard.classList.add("forecast-card");
@@ -22,15 +27,24 @@ function displayForecast(forecastData) {
       const dateElement = document.createElement("p");
       dateElement.textContent = date;
 
-      const temperatureElement = document.createElement("p");
-      temperatureElement.textContent = `${temperature}° F`;
+      const iconElement = document.createElement("img");
+      iconElement.src = iconUrl;
+      iconElement.alt = "Weather Icon";
 
-      const descriptionElement = document.createElement("p");
-      descriptionElement.textContent = description;
+      const temperatureElement = document.createElement("p");
+      temperatureElement.textContent = `Temperature: ${temperature}° F`;
+
+      const windSpeedElement = document.createElement("p");
+      windSpeedElement.textContent = `Wind Speed: ${windSpeed} mph`;
+
+      const humidityElement = document.createElement("p");
+      humidityElement.textContent = `Humidity: ${humidity}%`;
 
       forecastCard.appendChild(dateElement);
+      forecastCard.appendChild(iconElement);
       forecastCard.appendChild(temperatureElement);
-      forecastCard.appendChild(descriptionElement);
+      forecastCard.appendChild(windSpeedElement);
+      forecastCard.appendChild(humidityElement);
 
       daysForecast.appendChild(forecastCard);
     }
@@ -71,19 +85,24 @@ function getCoordinates(city) {
 }
 function displayCurrent(currentData) {
   currentWeather.innerHTML = "";
+
+  const iconCode = currentData.weather[0].icon;
+  const iconUrl = `https://openweathermap.org/img/w/${iconCode}.png`;
+
   currentWeather.insertAdjacentHTML(
     "beforeend",
     `
     <div>
       <h2>${currentData.name}</h2>
       <p>Date: ${new Date().toLocaleDateString()}</p>
-      <img src="${currentData.iconUrl}" alt="Weather Icon">
+      <img src="${iconUrl}" alt="Weather Icon">
       <p>Temperature: ${currentData.main.temp}&deg; F</p>
       <p>Humidity: ${currentData.main.humidity}%</p>
       <p>Wind Speed: ${currentData.wind.speed} mph</p>
     </div>
     `
   );
+
   getForecast(currentData.coord.lat, currentData.coord.lon);
 }
 
@@ -117,7 +136,7 @@ function addToSearchHistory(city) {
 
   // Add an event listener to the list item to perform a new search when clicked
   listItem.addEventListener("click", function () {
-    searchCity(city);
+    getCoordinates(city);
   });
 
   // Append the list item to the search history container
