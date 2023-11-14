@@ -6,7 +6,7 @@ This project is a weather dashboard application with search functionality to fin
 
 ## Screenshot
 
-![Alt text](/assets/Screen%20Shot%202023-11-05%20at%203.12.08%20PM.png "Weather App")
+![Alt text](./assets/Screen%20Shot%202023-11-05%20at%203.12.08%20PM.png "Weather App")
 
 ## User Story
 
